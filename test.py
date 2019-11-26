@@ -1,6 +1,4 @@
-import matplotlib.pyplot as plt
 import networkx as nx
-from networkx import Graph
 import re
 from nltk.corpus import stopwords
 stopLex=set(stopwords.words('english'))
