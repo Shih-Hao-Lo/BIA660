@@ -2,88 +2,121 @@ import re
 from nltk.corpus import stopwords
 import networkx as nx
 stopLex=set(stopwords.words('english'))
+import codecs
 
 author = {}
 
 # operation for siga confetence
-sigirf=open('articles_sigir.txt',encoding='utf8')
-sigirabs=[]
-sigirG=nx.Graph()
+sigirf=open('cse_train.txt',encoding='utf8',errors='ignore')
 for line in sigirf:
-    arr=line.strip().split('\t\t')
+    arr=line.strip().split('\t')
     #print('author:'+arr[0])
-    auths=arr[0].split(', ')
+    auths=arr[0].split(':')
     #print(str(auths))
     for auth in auths:
+        if auth.lower() == 'na' or len(auth)==0: continue
         obj=author.get(auth,{})
         #print('obj:'+str(obj))
-        obj['sigar']=obj.get('sigar',0)+1
+        obj['cse']=obj.get('cse',0)+1
         author[auth]=obj
         #print('obj[sigar]:'+str(obj['sigar']))
     #print(arr)
-    abstract=re.sub('[^a-z]',' ',arr[1].lower()).split(' ')
-    tmp=set()
-    for word in abstract:
-        if word in stopLex: continue
-        if len(word)==0: continue
-        if word=='na': continue
-        tmp.add(word)
-    sigirabs.append(tmp)
-    
-    for i in range(len(abstract)):
-        for j in range(i+1,len(abstract)):
-            if not sigirG.has_edge(abstract[i],abstract[j]):
-                sigirG.add_edge(abstract[i],abstract[j]) 
-                sigirG[abstract[i]][abstract[j]]['freq']=1
-            else:
-                sigirG[abstract[i]][abstract[j]]['freq']+=1
 sigirf.close()
 
-wwwf=open('articles_www.txt',encoding='utf8')
-wwwabs=[]
+wwwf=open('siggraph_train.txt',encoding='utf8',errors='ignore')
 for line in wwwf:
-    arr=line.strip().split('\t\t')
+    arr=line.strip().split('\t')
     #print('author:'+arr[0])
-    auths=arr[0].split(', ')
+    auths=arr[0].split(':')
     for auth in auths:
+        if auth.lower() == 'na' or len(auth)==0: continue
+        obj=author.get(auth,{})
+        #print('obj:'+str(obj))
+        obj['siggraph']=obj.get('siggraph',0)+1
+        author[auth]=obj
+        #print('obj[sigar]:'+str(obj['sigar']))
+wwwf.close()
+
+kddf=open('sigir_train.txt',encoding='utf8',errors='ignore')
+for line in kddf:
+    arr=line.strip().split('\t')
+    #print('author:'+arr[0])
+    auths=arr[0].split(':')
+    for auth in auths:
+        if auth.lower() == 'na' or len(auth)==0: continue
+        obj=author.get(auth,{})
+        #print('obj:'+str(obj))
+        obj['sigir']=obj.get('sigir',0)+1
+        author[auth]=obj
+        #print('obj[sigar]:'+str(obj['sigar']))
+kddf.close()
+
+sigirf=open('www_train.txt',encoding='utf8',errors='ignore')
+for line in sigirf:
+    arr=line.strip().split('\t')
+    #print('author:'+arr[0])
+    auths=arr[0].split(':')
+    #print(str(auths))
+    for auth in auths:
+        if auth.lower() == 'na' or len(auth)==0: continue
         obj=author.get(auth,{})
         #print('obj:'+str(obj))
         obj['www']=obj.get('www',0)+1
         author[auth]=obj
         #print('obj[sigar]:'+str(obj['sigar']))
-    abstract=re.sub('[^a-z]',' ',arr[1].lower()).split(' ')
-    tmp=set()
-    for word in abstract:
-        if word in stopLex: continue
-        if len(word)==0: continue
-        if word=='na': continue
-        tmp.add(word)
-    wwwabs.append(tmp)
-wwwf.close()
+    #print(arr)
+sigirf.close()
 
-kddf=open('articles_kdd.txt',encoding='utf8')
-kddabs=[]
-for line in kddf:
-    arr=line.strip().split('\t\t')
+sigirf=open('chi_train.txt',encoding='utf8',errors='ignore')
+for line in sigirf:
+    arr=line.strip().split('\t')
     #print('author:'+arr[0])
-    auths=arr[0].split(', ')
+    auths=arr[0].split(':')
+    #print(str(auths))
     for auth in auths:
+        if auth.lower() == 'na' or len(auth)==0: continue
+        obj=author.get(auth,{})
+        #print('obj:'+str(obj))
+        obj['chi']=obj.get('chi',0)+1
+        author[auth]=obj
+        #print('obj[sigar]:'+str(obj['sigar']))
+    #print(arr)
+sigirf.close()
+
+sigirf=open('cikm_train.txt',encoding='utf8',errors='ignore')
+for line in sigirf:
+    arr=line.strip().split('\t')
+    #print('author:'+arr[0])
+    auths=arr[0].split(':')
+    #print(str(auths))
+    for auth in auths:
+        if auth.lower() == 'na' or len(auth)==0: continue
+        obj=author.get(auth,{})
+        #print('obj:'+str(obj))
+        obj['cikm']=obj.get('cikm',0)+1
+        author[auth]=obj
+        #print('obj[sigar]:'+str(obj['sigar']))
+    #print(arr)
+sigirf.close()
+
+sigirf=open('kdd_train.txt',encoding='utf8',errors='ignore')
+for line in sigirf:
+    arr=line.strip().split('\t')
+    #print('author:'+arr[0])
+    auths=arr[0].split(':')
+    #print(str(auths))
+    for auth in auths:
+        if auth.lower() == 'na' or len(auth)==0: continue
         obj=author.get(auth,{})
         #print('obj:'+str(obj))
         obj['kdd']=obj.get('kdd',0)+1
         author[auth]=obj
         #print('obj[sigar]:'+str(obj['sigar']))
-    abstract=re.sub('[^a-z]',' ',arr[1].lower()).split(' ')
-    tmp=set()
-    for word in abstract:
-        if word in stopLex: continue
-        if len(word)==0: continue
-        if word=='na': continue
-        tmp.add(word)
-    kddabs.append(tmp)
-kddf.close()
+    #print(arr)
+sigirf.close()
 
 #test result
-#for auth in author:
-#sa    print(auth+':'+str(author.get(auth,0)))
-#print(str(kddabs))
+fw=codecs.open('author_test.txt','w',encoding='utf8')
+for auth in author:
+    if len(author.get(auth,0))>=4: print(auth+':'+str(author.get(auth,0)))
+    fw.write(auth+':'+str(author.get(auth,0))+'\t'+str(len(author.get(auth,0)))+'\n')

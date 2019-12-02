@@ -35,9 +35,10 @@ sigirf.close()
 
 remove = []
 for N1,N2 in sigirG.edges():
-    if sigirG[N1][N2]['freq']>=5:print(N1+','+N2+':'+str(sigirG[N1][N2]['freq']))
     if sigirG[N1][N2]['freq']<5:remove.append((N1,N2))
 sigirG.remove_edges_from(remove)
+for N1,N2 in sigirG.edges():
+    print(N1+','+N2+':'+str(sigirG[N1][N2]['freq']))
 #nx.draw(sigirG)
 #print('-----------------------------------------------------------')
 #for N1,N2 in sigirG.edges():
