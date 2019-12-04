@@ -1,17 +1,17 @@
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction.text import TfidfTransformer
+from sklearn.multiclass import OneVsRestClassifier
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.metrics import accuracy_score
 from sklearn import svm
-import numpy as np
+#import numpy as np
 from sklearn.linear_model import SGDClassifier
-from sklearn.neighbors import KNeighborsClassifier
+#from sklearn.neighbors import KNeighborsClassifier
 from sklearn.neural_network import MLPClassifier
 from xgboost import XGBClassifier
-from sklearn.ensemble import VotingClassifier
-import codecs
-from sklearn.tree import DecisionTreeClassifier
+#import codecs
 from sklearn.linear_model import RidgeClassifierCV
+from sklearn.ensemble import AdaBoostClassifier
 
 def loadData(fname,tag,reviews,labels):
     f=open(fname,encoding='utf8',errors='ignore')
@@ -75,28 +75,26 @@ counter.fit(reviews)
 counts_train = counter.transform(reviews)#transform the training data
 counts_test = counter.transform(rev_test)#transform the testing data
 
-print(counts_train.shape)
+#print(counts_train.shape)
 #print(labels)
 #print(counts_test)
 
-tfidf_transformer  = TfidfTransformer(use_idf=False).fit(counts_train)
+tfidf_transformer = TfidfTransformer(use_idf=False).fit(counts_train)
 X_train_tfidf = tfidf_transformer.fit_transform(counts_train)
 X_test_tfidf = tfidf_transformer.fit_transform(counts_test)
 
 clf1 = MultinomialNB()
-clf2 = svm.SVC(gamma='scale', decision_function_shape='ovo')
+clf2 = OneVsRestClassifier(svm.SVC(gamma='scale', decision_function_shape='ovo'))
 clf3 = svm.LinearSVC(multi_class='ovr', max_iter=3000)
-clf4 = MLPClassifier()
+clf4 = OneVsRestClassifier(MLPClassifier())
 clf5 = SGDClassifier(n_jobs=7, loss="hinge", penalty="l2", max_iter=3000)
 #clf6 = KNeighborsClassifier(n_neighbors=3)
-clf7 = XGBClassifier(max_depth=10,colsample_bytree=0.9)
+clf7 = OneVsRestClassifier(XGBClassifier(max_depth=10,colsample_bytree=0.9))
 #clf7 = XGBClassifier(learning_rate =0.01,n_estimators=5000,max_depth=4,min_child_weight=6,gamma=0,subsample=0.8,colsample_bytree=0.8,reg_alpha=0.005,objective= 'binary:logistic',nthread=4,scale_pos_weight=1,seed=27) 
 clf8 = RidgeClassifierCV()
 clf = [clf1, clf2, clf3, clf4, clf5, clf7, clf8]
 arr = ['MultinomialNB','SVC','LinearSVC','MLPClassifier','SGDClassifier','XGBClassifier','RidgeClassifierCV']
 #predictors = [('nb',clf1), ('svc',clf2), ('lsvc',clf3), ('mlp',clf4), ('sgd',clf5), ('xgbc',clf7)]
-
-fw=codecs.open('vote_test.txt','w',encoding='utf8')
 
 result=[]
 maxpred = []
@@ -108,19 +106,15 @@ for x in range(len(clf)):
     pred=clf[x].predict(counts_test)
     predarr.append(pred)
     print(arr[x])
-    print('predict:',pred)
-    #fw.write(str(pred)+'\n')
+    #print('predict:',pred)
     #print('correct answer:',labels_test)
     s=accuracy_score(pred,labels_test)
-    #print (s)
+    print (s)
     result.append(s)
     if s > maxp:
         maxp = s
         maxx = x
         maxpred = pred
-
-fw.write(str(predarr))
-fw.close()
 
 for x in range(len(result)):
     print(arr[x]+':'+str(result[x]))
