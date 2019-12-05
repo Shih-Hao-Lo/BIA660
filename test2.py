@@ -11,7 +11,6 @@ from sklearn.neural_network import MLPClassifier
 from xgboost import XGBClassifier
 #import codecs
 from sklearn.linear_model import RidgeClassifierCV
-from sklearn.ensemble import AdaBoostClassifier
 
 def loadData(fname,tag,reviews,labels):
     f=open(fname,encoding='utf8',errors='ignore')
