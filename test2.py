@@ -47,24 +47,24 @@ def findmax(vote):
 
 reviews=[]
 labels=[]
-loadData('cse_train.txt','sigcse',reviews,labels)
-loadData('siggraph_train.txt','siggraph',reviews,labels)
-loadData('sigir_train.txt','sigir',reviews,labels)
-loadData('www_train.txt','www',reviews,labels)
-loadData('chi_train.txt','sigchi',reviews,labels)
-loadData('cikm_train.txt','cikm',reviews,labels)
-loadData('kdd_train.txt','sigkdd',reviews,labels)
+loadData('data/cse_train.txt','sigcse',reviews,labels)
+loadData('data/siggraph_train.txt','siggraph',reviews,labels)
+loadData('data/sigir_train.txt','sigir',reviews,labels)
+loadData('data/www_train.txt','www',reviews,labels)
+loadData('data/chi_train.txt','sigchi',reviews,labels)
+loadData('data/cikm_train.txt','cikm',reviews,labels)
+loadData('data/kdd_train.txt','sigkdd',reviews,labels)
 
 
 rev_test=[]
 labels_test=[]
-loadData('cse_test.txt','sigcse',rev_test,labels_test)
-loadData('siggraph_test.txt','siggraph',rev_test,labels_test)
-loadData('sigir_test.txt','sigir',rev_test,labels_test)
-loadData('www_test.txt','www',rev_test,labels_test)
-loadData('chi_test.txt','sigchi',rev_test,labels_test)
-loadData('cikm_test.txt','cikm',rev_test,labels_test)
-loadData('kdd_test.txt','sigkdd',rev_test,labels_test)
+loadData('data/cse_test.txt','sigcse',rev_test,labels_test)
+loadData('data/siggraph_test.txt','siggraph',rev_test,labels_test)
+loadData('data/sigir_test.txt','sigir',rev_test,labels_test)
+loadData('data/www_test.txt','www',rev_test,labels_test)
+loadData('data/chi_test.txt','sigchi',rev_test,labels_test)
+loadData('data/cikm_test.txt','cikm',rev_test,labels_test)
+loadData('data/kdd_test.txt','sigkdd',rev_test,labels_test)
 loadAbs2('sample.txt',rev_test,labels_test)
 
 #print(labels_test)
